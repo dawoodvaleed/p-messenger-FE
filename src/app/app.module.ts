@@ -12,7 +12,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { ThreadComponent } from './Components/thread/thread.component';
 import { LoginComponent } from './Containers/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ChatComponent } from './Containers/chat/chat.component';
 import { MessageComponent } from './Components/message/message.component';
@@ -40,10 +40,11 @@ import { NewComponent } from './Containers/new/new.component';
     MatButtonModule,
     MatSidenavModule,
     ReactiveFormsModule,
+    FormsModule,
     MatIconModule,
     MatListModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,    
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -10,6 +10,9 @@ export class ThreadComponent {
   @Input() lastMessage: string;
   @Input() threadImg: string;
   @Input() lastSeen: string;
+  @Input() senderUid: string;
+
+  currentUser = localStorage.getItem('user')
 
   constructor() { }
 }

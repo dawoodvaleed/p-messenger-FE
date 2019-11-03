@@ -3,13 +3,18 @@
   bottom: 0;
   background-color: #ccc;
   width: calc(100% - 349px);
+  display: flex;
+  align-items: center;
   input {
-    width: 80%;
+    flex: 1;
     font-size: 15px;
     padding: 10px;
     border-radius: 100px;
     border: 0px;
     margin: 15px;
+  }
+  button {
+    margin-right: 25px;
   }
 }
 

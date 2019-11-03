@@ -4,7 +4,7 @@
     [opened]="!(isHandset$ | async)">
     <mat-toolbar></mat-toolbar>
     <mat-nav-list *ngFor="let item of threadList">
-      <app-thread (click)="openThread(item)" [lastSeen]="item.isLastMsgSeen"
+      <app-thread (click)="openThread(item)" [senderUid]="item.senderUid" [lastSeen]="item.isLastMsgSeen"
         [threadName]="item.groupObject ? item.groupObject.groupName : item.snederObject.name"
         [lastMessage]="item.lastMessage"
         [threadImg]="item.groupObject ? (item.groupObject.groupImage ? item.groupObject.groupImage : '../../../assets/Images/source.gif') : (item.snederObject.image?item.snederObject.image: '../../../assets/Images/source.gif')">
