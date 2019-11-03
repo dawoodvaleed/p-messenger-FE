@@ -3,10 +3,12 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="!(isHandset$ | async)">
     <mat-toolbar></mat-toolbar>
-    <mat-nav-list>
-      <app-thread threadName="Sample" lastMessage="This is the last message" threadImg="../../../assets/Images/source.gif"></app-thread>
-      <app-thread threadName="Sample" lastMessage="This is the last message" threadImg="../../../assets/Images/source.gif"></app-thread>
-      <app-thread threadName="Sample" lastMessage="This is the last message" threadImg="../../../assets/Images/source.gif"></app-thread>
+    <mat-nav-list *ngFor="let item of threadList">
+      <app-thread (click)="openThread(item)" [lastSeen]="item.isLastMsgSeen"
+        [threadName]="item.groupObject ? item.groupObject.groupName : item.snederObject.name"
+        [lastMessage]="item.lastMessage"
+        [threadImg]="item.groupObject ? (item.groupObject.groupImage ? item.groupObject.groupImage : '../../../assets/Images/source.gif') : (item.snederObject.image?item.snederObject.image: '../../../assets/Images/source.gif')">
+      </app-thread>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,6 +19,7 @@
       </button>
       <!-- <span>p-messenger</span> -->
     </mat-toolbar>
-    <!-- Add Content Here -->
+    <app-chat [selectedThread]="selectedThread"></app-chat>
+    <app-new [selectedThread]="selectedThread"></app-new>
   </mat-sidenav-content>
 </mat-sidenav-container>

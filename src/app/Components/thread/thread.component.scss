@@ -10,6 +10,7 @@ img {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 
 .inner {
@@ -21,4 +22,8 @@ img {
 }
 .msg {
   font-size: 14px;
+  width: 250px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
