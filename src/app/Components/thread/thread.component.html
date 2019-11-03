@@ -1,7 +1,7 @@
 <div class="main">
   <img src={{threadImg}} />
   <div class="inner">
-    <span class="name"> {{threadName}} </span>
-    <span class="msg"> {{lastMessage}} </span>
+    <span class="name" [ngStyle]="{'font-weight': !lastSeen ? 'bold' : '0'}"> {{threadName}} </span>
+    <span class="msg" [ngStyle]="{'font-weight': !lastSeen ? 'bold' : '0'}"> {{lastMessage}} </span>
   </div>
 </div>

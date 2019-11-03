@@ -1,0 +1,21 @@
+.stick {
+  position: fixed;
+  bottom: 0;
+  background-color: #ccc;
+  width: calc(100% - 349px);
+  input {
+    width: 80%;
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 100px;
+    border: 0px;
+    margin: 15px;
+  }
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}

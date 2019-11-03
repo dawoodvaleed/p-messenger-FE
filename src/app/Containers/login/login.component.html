@@ -1,0 +1,24 @@
+<div class="main">
+  <mat-form-field appearance="outline" class="phone-number">
+    <mat-label>Enter Phone Number</mat-label>
+    <input matInput placeholder="Placeholder" [formControl]="phoneControl">
+    <mat-icon matSuffix>phone</mat-icon>
+    <mat-error *ngIf="phoneControl.hasError('required')">
+      Phone Number is <strong>required</strong>
+    </mat-error>
+    <mat-hint>example: +921234567890</mat-hint>
+  </mat-form-field>
+  <div class="form-group">
+    <button class="login-button" [disabled]="!phoneControl.valid" mat-raised-button color="primary" id="log-in-button"
+      (click)="logIn(phoneControl)">LOG IN</button>
+  </div>
+</div>
+<form class="code" [formGroup]="codeForm" (ngSubmit)="verifyCode(codeForm)">
+  <mat-form-field>
+    <mat-label>Code</mat-label>
+    <input matInput placeholder="Placeholder" formControlName="code">
+  </mat-form-field>
+  <div class="code-button">
+    <button type="submit" mat-raised-button color="primary">Verify Code</button>
+  </div>
+</form>

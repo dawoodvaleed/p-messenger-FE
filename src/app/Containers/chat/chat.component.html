@@ -1,0 +1,8 @@
+<div *ngIf="chatList.length === 0" class="main">
+  <h1>Welcome</h1>
+  <p>Select any thread from the left to start a conversation</p>
+</div>
+
+<div #scrollChat *ngFor="let message of chatList">
+  <app-message [senderName]="message.senderName" [isGroup]="isGroup" [senderId]="message.sendUid" [message]="message.message" [dateTime]="message.dateTime"></app-message>
+</div>

@@ -1,0 +1,9 @@
+<div [class]="senderId === currentUserId ? 'right' : 'left'">
+  <div class="message">
+    <h5 *ngIf="isGroup">{{senderName}}</h5>
+    <div class="inner">
+      <h4>{{message}}</h4>
+      <p>{{dateTime}}</p>
+    </div>
+  </div>
+</div>
