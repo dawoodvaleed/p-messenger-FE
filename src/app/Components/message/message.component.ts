@@ -11,8 +11,13 @@ export class MessageComponent {
   @Input() senderId: string
   @Input() senderName: string
   @Input() isGroup: string
+  @Input() messageType: string
 
   currentUserId = localStorage.getItem('user')
 
   constructor() { }
+
+  openImg() {
+    window.open(this.message, '_blank')
+  }
 }

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  constructor(private fireAuth: AngularFireAuth, private store: AngularFirestore) { }
+  constructor(private fireAuth: AngularFireAuth, private store: AngularFirestore, private storage: AngularFireStorage) { }
 
   loginPhone(phone: string, appVerifier: any) {
     return this.fireAuth.auth.signInWithPhoneNumber(phone, appVerifier)
@@ -69,7 +70,7 @@ export class FirebaseService {
             .subscribe(res => res.map(msg => msg.payload.doc.ref.update({
               dateTime: obj.dateTime,
               isLastMsgSeen: user.uid === localStorage.getItem('user') ? true : false,
-              lastMessage: obj.message,
+              lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
             })))
         }))
     }

@@ -1,4 +1,4 @@
-<div class="main">
+<div [style.backgroundColor]="isSelected ? '#e9ebeb' : ''" class="main">
   <img src={{threadImg}} />
   <div class="inner">
     <span class="name" [ngStyle]="{'font-weight': (!lastSeen && senderUid !== currentUser) ? 'bold' : '0'}"> {{threadName}} </span>

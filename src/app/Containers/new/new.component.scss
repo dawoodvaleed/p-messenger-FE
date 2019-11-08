@@ -13,8 +13,11 @@
     border: 0px;
     margin: 15px;
   }
-  button {
+  .send {
     margin-right: 25px;
+  }
+  .upload-image {
+    margin-left: 15px;
   }
 }
 
@@ -23,4 +26,8 @@ select:focus,
 textarea:focus,
 button:focus {
   outline: none;
+}
+
+.mat-dialog-actions {
+  justify-content: center;
 }

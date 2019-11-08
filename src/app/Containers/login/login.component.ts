@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { FirebaseService } from 'src/app/Services/firebase.service';
 import { UtilService } from 'src/app/Services/util.service';
@@ -17,13 +17,21 @@ export class LoginComponent implements OnInit {
   codeForm: FormGroup;
   windowRef: any;
 
-  constructor(public fb: FormBuilder, public fireAuthService: FirebaseService, public activatedRoute: ActivatedRoute, public win: UtilService) {
+  constructor(public fb: FormBuilder,
+    public fireAuthService: FirebaseService,
+    public activatedRoute: ActivatedRoute,
+    public win: UtilService,
+    private router: Router) {
     this.createCodeForm();
   }
 
   ngOnInit() {
-    this.windowRef = this.win.windowRef;
-    this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('log-in-button', { 'size': 'invisible' });
+    if (localStorage.getItem('user')) {
+      this.router.navigate(['/mychat']);
+    } else {
+      this.windowRef = this.win.windowRef;
+      this.windowRef.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('log-in-button', { 'size': 'invisible' });
+    }
   }
 
   createCodeForm() {
@@ -32,8 +40,8 @@ export class LoginComponent implements OnInit {
 
   logIn(phoneNumber: FormControl) {
     var appVerifier = this.windowRef.recaptchaVerifier;
-    console.log(phoneNumber.value);
     this.fireAuthService.loginPhone(phoneNumber.value, appVerifier).then(res => {
+      debugger
       this.windowRef.confirmationResult = res;
       this.showCode = true
     }).catch(err => {
@@ -43,8 +51,12 @@ export class LoginComponent implements OnInit {
 
   verifyCode(codeForm: FormGroup) {
     let code: string = codeForm.value.code;
-    this.windowRef.confirmationResult.confirm(code).then(p => {
-      console.log(p);
+    this.windowRef.confirmationResult.confirm(code).then(userInfo => {
+      localStorage.setItem('user', userInfo.user.uid)
+      this.fireAuthService.getUserDetail(userInfo.user.uid).subscribe(res => {
+        localStorage.setItem('userDetail', JSON.stringify(res.payload.data()))
+        this.router.navigate(['/mychat']);
+      })
     }).catch(err => { console.log(err); });
   }
 }

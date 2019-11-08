@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { FirebaseService } from '../../Services/firebase.service';
 
 @Component({
@@ -13,8 +13,7 @@ export class ChatComponent implements OnInit {
 
   constructor(private fireBaseService: FirebaseService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ngOnChanges(changes) {
     const { selectedThread: { currentValue } } = changes

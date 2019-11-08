@@ -1,6 +1,9 @@
 <form (ngSubmit)="send(message.value)" class="stick" *ngIf="show">
+    <button class="upload-image" type="button" (click)="uploadImage()" mat-icon-button color="primary">
+        <mat-icon>insert_photo</mat-icon>
+    </button>
     <input [formControl]="message" placeholder="Type a message">
-    <button type="submit" [disabled]="!message.valid" mat-icon-button color="primary">
+    <button class="send" type="submit" [disabled]="!message.valid" mat-icon-button color="primary">
         <mat-icon>send</mat-icon>
     </button>
 </form>

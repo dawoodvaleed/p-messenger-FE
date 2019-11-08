@@ -11,6 +11,7 @@ export class ThreadComponent {
   @Input() threadImg: string;
   @Input() lastSeen: string;
   @Input() senderUid: string;
+  @Input() isSelected: boolean;
 
   currentUser = localStorage.getItem('user')
 
