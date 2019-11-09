@@ -27,7 +27,6 @@ export class ThreadsComponent implements OnInit {
   }
 
   openThread(thread) {
-    console.log(thread)
-    this.selectedThread = thread
+  this.selectedThread = thread
   }
 }

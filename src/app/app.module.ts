@@ -18,6 +18,7 @@ import { ChatComponent } from './Containers/chat/chat.component';
 import { MessageComponent } from './Components/message/message.component';
 import { NewComponent, UploadFileDialog } from './Containers/new/new.component';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { ConvertDate } from './Services/util.service';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     MessageComponent,
     NewComponent,
     UploadFileDialog,
+    ConvertDate
   ],
   imports: [
     BrowserModule,
