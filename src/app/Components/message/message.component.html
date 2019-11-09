@@ -1,5 +1,5 @@
 <div [class]="senderId === currentUserId ? 'right' : 'left'">
-  <div class="message">
+  <div [class]="senderId === currentUserId ? 'right-message' : 'left-message'">
     <h5 *ngIf="isGroup">{{senderId === currentUserId ? '' : senderName}}</h5>
     <div *ngIf="messageType == 0" class="inner">
       <h4>{{message}}</h4>

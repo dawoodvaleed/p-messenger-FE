@@ -1,3 +1,5 @@
+@import "../../../theme.scss";
+
 h4 {
   margin: 0px;
   font-weight: 500;
@@ -5,7 +7,7 @@ h4 {
 h5 {
   margin: 0px;
   margin-bottom: 5px;
-  color: #3f51b5;
+  color: $warn;
 }
 p {
   margin: 0px;
@@ -22,9 +24,17 @@ p {
   display: flex;
   justify-content: flex-end;
 }
-.message {
-  margin: 5px 50px 5px 50px;
+.left-message {
   background: #ddd;
+  margin: 5px 50px 5px 50px;
+  width: fit-content;
+  border-radius: 5px;
+  padding: 10px;
+}
+.right-message {
+  color: white;
+  background: $accent;
+  margin: 5px 50px 5px 50px;
   width: fit-content;
   border-radius: 5px;
   padding: 10px;
