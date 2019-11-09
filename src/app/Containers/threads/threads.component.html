@@ -2,9 +2,16 @@
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="!(isHandset$ | async)">
-    <mat-toolbar></mat-toolbar>
+    <mat-toolbar style="display: flex; justify-content: space-between;">
+      <img width="30" [src]="profileImg">
+      <button (click)="logOut()" matTooltip="Log Out" color="warn" mat-icon-button>
+        <mat-icon aria-label="Side nav toggle icon">power_settings_new</mat-icon>
+      </button>
+    </mat-toolbar>
+    <hr />
     <mat-nav-list *ngFor="let item of threadList">
-      <app-thread (click)="openThread(item)" [isSelected]="item.combineUid ? (item.combineUid === selectedThread.combineUid) : (item.groupID === selectedThread.groupID)"
+      <app-thread (click)="openThread(item)"
+        [isSelected]="item.combineUid ? (item.combineUid === selectedThread.combineUid) : (item.groupID === selectedThread.groupID)"
         [senderUid]="item.senderUid" [lastSeen]="item.isLastMsgSeen"
         [threadName]="item.groupObject ? item.groupObject.groupName : item.snederObject.name"
         [lastMessage]="item.lastMessage"

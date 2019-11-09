@@ -12,12 +12,16 @@ export class ThreadsComponent implements OnInit {
   currentUser = localStorage.getItem('user')
   threadList = []
   selectedThread = {}
+  profileImg = ''
 
   constructor(private fireBaseService: FirebaseService, private router: Router) { }
 
   ngOnInit() {
     if (this.currentUser) {
-      this.fireBaseService.getUserDetail(this.currentUser).subscribe(res => localStorage.setItem('userDetail', JSON.stringify(res.payload.data())))
+      this.fireBaseService.getUserDetail(this.currentUser).subscribe(res => {
+        this.profileImg = res.payload.data()['image']
+        localStorage.setItem('userDetail', JSON.stringify(res.payload.data()))
+      })
       this.fireBaseService.getUserThreads(this.currentUser).subscribe(res => {
         this.threadList = res.map(item => item.payload.doc.data())
       })
@@ -27,6 +31,11 @@ export class ThreadsComponent implements OnInit {
   }
 
   openThread(thread) {
-  this.selectedThread = thread
+    this.selectedThread = thread
+  }
+
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['/']);
   }
 }
