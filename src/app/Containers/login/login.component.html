@@ -1,4 +1,5 @@
 <div class="main">
+  <h1>P-Messenger</h1>
   <mat-form-field appearance="outline" class="phone-number">
     <mat-label>Enter Phone Number</mat-label>
     <input matInput placeholder="Placeholder" [formControl]="phoneControl">
@@ -14,11 +15,11 @@
   </div>
 </div>
 <form class="code" [formGroup]="codeForm" (ngSubmit)="verifyCode(codeForm)">
-  <mat-form-field>
+  <mat-form-field appearance="outline">
     <mat-label>Code</mat-label>
     <input matInput placeholder="Placeholder" formControlName="code">
   </mat-form-field>
   <div class="code-button">
-    <button type="submit" mat-raised-button color="primary">Verify Code</button>
+    <button type="submit" mat-raised-button color="primary">VERIFY CODE</button>
   </div>
 </form>

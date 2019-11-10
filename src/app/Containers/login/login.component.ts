@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
   logIn(phoneNumber: FormControl) {
     var appVerifier = this.windowRef.recaptchaVerifier;
     this.fireAuthService.loginPhone(phoneNumber.value, appVerifier).then(res => {
-      debugger
       this.windowRef.confirmationResult = res;
       this.showCode = true
     }).catch(err => {
