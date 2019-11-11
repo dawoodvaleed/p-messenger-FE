@@ -1,13 +1,15 @@
 <div [class]="senderId === currentUserId ? 'right' : 'left'">
   <div [class]="senderId === currentUserId ? 'right-message' : 'left-message'">
     <h5 *ngIf="isGroup">{{senderId === currentUserId ? '' : senderName}}</h5>
-    <div *ngIf="messageType == 0" class="inner">
+    <div *ngIf="messageType === '0'" class="inner">
       <h4>{{message}}</h4>
       <p>{{dateTime | dateToLocal}}</p>
+      <!-- <p>{{dateTime}}</p> -->
     </div>
-    <div *ngIf="messageType == 1">
+    <div *ngIf="messageType == '1'">
       <img (click)="openImg()" width="350" [src]="message">
       <p>{{dateTime | dateToLocal}}</p>
+      <!-- <p>{{dateTime}}</p> -->
     </div>
   </div>
 </div>

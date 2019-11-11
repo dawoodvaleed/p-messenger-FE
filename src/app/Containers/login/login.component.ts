@@ -12,8 +12,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 })
 export class LoginComponent implements OnInit {
 
-  phoneControl = new FormControl('', [Validators.required]);
-  showCode: boolean = false
+  phoneGroup = new FormGroup({
+    phoneControl: new FormControl('', [Validators.required])
+  })
   codeForm: FormGroup;
   windowRef: any;
 
@@ -38,11 +39,10 @@ export class LoginComponent implements OnInit {
     this.codeForm = this.fb.group({ code: [] })
   }
 
-  logIn(phoneNumber: FormControl) {
-    var appVerifier = this.windowRef.recaptchaVerifier;
-    this.fireAuthService.loginPhone(phoneNumber.value, appVerifier).then(res => {
+  logIn() {
+    let appVerifier = this.windowRef.recaptchaVerifier;
+    this.fireAuthService.loginPhone(this.phoneGroup.controls.phoneControl.value, appVerifier).then(res => {
       this.windowRef.confirmationResult = res;
-      this.showCode = true
     }).catch(err => {
       console.log(err);
     })
@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit {
   verifyCode(codeForm: FormGroup) {
     let code: string = codeForm.value.code;
     this.windowRef.confirmationResult.confirm(code).then(userInfo => {
-      localStorage.setItem('user', userInfo.user.uid)
+      localStorage.setItem('user', userInfo.user.uid);
       this.fireAuthService.getUserDetail(userInfo.user.uid).subscribe(res => {
-        localStorage.setItem('userDetail', JSON.stringify(res.payload.data()))
+        localStorage.setItem('userDetail', JSON.stringify(res.payload.data()));
         this.router.navigate(['/mychat']);
       })
-    }).catch(err => { console.log(err); });
+    }).catch(err => { console.log(err) });
   }
 }

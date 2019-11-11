@@ -36,7 +36,8 @@ export class UtilService {
 @Pipe({ name: 'dateToLocal' })
 export class ConvertDate implements PipeTransform {
   transform(value: string): string {
-    let d = new Date(value)
+    const utcDate = new Date(value).toLocaleString() + ' UTC'
+    const d = new Date(utcDate)
     return `${d.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: '2-digit' })} ${d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
   }
 }

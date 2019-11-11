@@ -1,25 +1,26 @@
-<div class="main">
+<form [formGroup]="phoneGroup" (ngSubmit)="logIn()" class="main">
   <h1>P-Messenger</h1>
   <mat-form-field appearance="outline" class="phone-number">
     <mat-label>Enter Phone Number</mat-label>
-    <input matInput placeholder="Placeholder" [formControl]="phoneControl">
+    <input matInput placeholder="Placeholder" formControlName="phoneControl">
     <mat-icon matSuffix>phone</mat-icon>
-    <mat-error *ngIf="phoneControl.hasError('required')">
+    <mat-error *ngIf="phoneGroup.controls.phoneControl.hasError('required')">
       Phone Number is <strong>required</strong>
     </mat-error>
     <mat-hint>example: +921234567890</mat-hint>
   </mat-form-field>
   <div class="form-group">
-    <button class="login-button" [disabled]="!phoneControl.valid" mat-raised-button color="primary" id="log-in-button"
-      (click)="logIn(phoneControl)">LOG IN</button>
+    <button class="login-button" [disabled]="!phoneGroup.valid" mat-raised-button color="primary" id="log-in-button">LOG
+      IN</button>
   </div>
-</div>
+</form>
 <form class="code" [formGroup]="codeForm" (ngSubmit)="verifyCode(codeForm)">
   <mat-form-field appearance="outline">
     <mat-label>Code</mat-label>
     <input matInput placeholder="Placeholder" formControlName="code">
   </mat-form-field>
-  <div class="code-button">
-    <button type="submit" mat-raised-button color="primary">VERIFY CODE</button>
+  <div>
+    <button class="code-button" [disabled]="!windowRef.hasOwnProperty('confirmationResult')" type="submit"
+      mat-raised-button color="primary">VERIFY CODE</button>
   </div>
 </form>

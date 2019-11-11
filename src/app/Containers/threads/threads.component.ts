@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../../Services/firebase.service';
 import { Router } from '@angular/router';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-threads',
@@ -13,18 +16,22 @@ export class ThreadsComponent implements OnInit {
   threadList = []
   selectedThread = {}
   profileImg = ''
+  subscriptions = []
 
-  constructor(private fireBaseService: FirebaseService, private router: Router) { }
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+    .pipe(map(result => result.matches))
+
+  constructor(private breakpointObserver: BreakpointObserver, private fireBaseService: FirebaseService, private router: Router) { }
 
   ngOnInit() {
     if (this.currentUser) {
-      this.fireBaseService.getUserDetail(this.currentUser).subscribe(res => {
+      this.subscriptions.push(this.fireBaseService.getUserDetail(this.currentUser).subscribe(res => {
         this.profileImg = res.payload.data()['image']
         localStorage.setItem('userDetail', JSON.stringify(res.payload.data()))
-      })
-      this.fireBaseService.getUserThreads(this.currentUser).subscribe(res => {
+      }))
+      this.subscriptions.push(this.fireBaseService.getUserThreads(this.currentUser).subscribe(res => {
         this.threadList = res.map(item => item.payload.doc.data())
-      })
+      }))
     } else {
       this.router.navigate(['/']);
     }
@@ -32,6 +39,10 @@ export class ThreadsComponent implements OnInit {
 
   openThread(thread) {
     this.selectedThread = thread
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 
   logOut() {

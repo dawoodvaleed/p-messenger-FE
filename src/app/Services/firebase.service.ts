@@ -41,37 +41,44 @@ export class FirebaseService {
   }
 
   sendMessage(id, obj, thread) {
+    let subscriptions = []
     if (thread.combineUid) {
       thread.combineUid.split("|$|").map(uid => {
-        this.store
+        subscriptions.push(this.store
           .collection('Allthreads')
           .doc(uid)
           .collection('threads', ref => ref.where('combineUid', '==', thread.combineUid))
           .snapshotChanges()
-          .subscribe(res => res.map(msg => msg.payload.doc.ref.update({
-            dateTime: obj.dateTime,
-            senderUid: obj.sendUid,
-            isLastMsgSeen: uid === localStorage.getItem('user') ? true : false,
-            lastMessage: obj.message,
-          })))
+          .subscribe(res => {
+            res.map(msg => msg.payload.doc.ref.update({
+              dateTime: obj.dateTime,
+              senderUid: obj.sendUid,
+              isLastMsgSeen: uid == localStorage.getItem('user') ? true : false,
+              lastMessage: obj.message,
+            }))
+            subscriptions.forEach(subscription => subscription.unsubscribe())
+          }))
       })
     } else {
-      this.store
+      subscriptions.push(this.store
         .collection('AllGroups')
         .doc(thread.groupID)
         .snapshotChanges()
         .subscribe(res => res.payload.data()['groupMembers'].map(user => {
-          this.store
+          subscriptions.push(this.store
             .collection('Allthreads')
             .doc(user.uid)
             .collection('threads', ref => ref.where('groupID', '==', thread.groupID))
             .snapshotChanges()
-            .subscribe(res => res.map(msg => msg.payload.doc.ref.update({
-              dateTime: obj.dateTime,
-              isLastMsgSeen: user.uid === localStorage.getItem('user') ? true : false,
-              lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
-            })))
-        }))
+            .subscribe(res => {
+              res.map(msg => msg.payload.doc.ref.update({
+                dateTime: obj.dateTime,
+                isLastMsgSeen: user.uid == localStorage.getItem('user') ? true : false,
+                lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
+              }))
+              subscriptions.forEach(subscription => subscription.unsubscribe())
+            }))
+        })))
     }
     return this.store.collection('allMessages').doc(id).collection('messages').add(obj)
   }

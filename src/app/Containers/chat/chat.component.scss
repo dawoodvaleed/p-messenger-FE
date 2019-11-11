@@ -12,3 +12,11 @@
     font-size: 20px;
   }
 }
+
+.chat {
+  top: 64px;
+  width: 100%;
+  position: absolute;
+  height: calc(100% - 67px - 64px);
+  overflow-y: scroll;
+}

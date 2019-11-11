@@ -30,7 +30,7 @@ import { ConvertDate } from './Services/util.service';
     MessageComponent,
     NewComponent,
     UploadFileDialog,
-    ConvertDate
+    ConvertDate,
   ],
   imports: [
     BrowserModule,

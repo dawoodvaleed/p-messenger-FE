@@ -25,10 +25,10 @@
   display: flex;
   justify-content: center;
 }
-::ng-deep .code-button {
+.code-button {
   margin-left: 15px;
   margin-top: 15px;
-  color: white !important;
+  color: white;
 }
 
 h1 {

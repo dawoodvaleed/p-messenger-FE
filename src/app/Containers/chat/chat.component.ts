@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FirebaseService } from '../../Services/firebase.service';
 
 @Component({
@@ -6,20 +6,20 @@ import { FirebaseService } from '../../Services/firebase.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
   @Input() selectedThread: any;
   chatList = []
   isGroup: boolean
+  subscription
 
   constructor(private fireBaseService: FirebaseService) { }
 
-  ngOnInit() { }
-
   ngOnChanges(changes) {
+    this.subscription && this.subscription.unsubscribe()
     const { selectedThread: { currentValue } } = changes
     const id = currentValue.combineUid ? currentValue.combineUid : currentValue.groupID
     this.isGroup = currentValue.combineUid ? false : true
-    id ? this.fireBaseService.getChat(id).subscribe(res => {
+    this.subscription = id ? this.fireBaseService.getChat(id).subscribe(res => {
       this.chatList = res.map(item => item.payload.doc.data())
     }) : null
   }

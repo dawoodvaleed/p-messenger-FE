@@ -5,7 +5,7 @@
     <mat-toolbar style="display: flex; justify-content: space-between;">
       <span>P-Messenger</span>
       <div style="display: flex; justify-content: center; align-items: center;">
-        <img width="30" height="30" [src]="profileImg ? profileImg : '../../../assets/Images/source.gif'">
+        <img width="30" height="30" [src]="profileImg ? profileImg : '../../../assets/Images/source.png'">
         <button (click)="logOut()" matTooltip="Log Out" color="warn" mat-icon-button>
           <mat-icon aria-label="Side nav toggle icon">power_settings_new</mat-icon>
         </button>
@@ -18,13 +18,13 @@
         [senderUid]="item.senderUid" [lastSeen]="item.isLastMsgSeen"
         [threadName]="item.groupObject ? item.groupObject.groupName : item.snederObject.name"
         [lastMessage]="item.lastMessage"
-        [threadImg]="item.groupObject ? (item.groupObject.groupImage ? item.groupObject.groupImage : '../../../assets/Images/source.gif') : (item.snederObject.image?item.snederObject.image: '../../../assets/Images/source.gif')">
+        [threadImg]="item.groupObject ? (item.groupObject.groupImage ? item.groupObject.groupImage : '../../../assets/Images/source.png') : (item.snederObject.image?item.snederObject.image: '../../../assets/Images/source.png')">
       </app-thread>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <span style="color: white;">{{selectedThread.dateTime ? (selectedThread.combineUid ? selectedThread.snederObject.name : selectedThread.groupObject.groupName) : ''}}</span>
+      <span style="color: white;">{{selectedThread.hasOwnProperty('dateTime') ? (selectedThread['combineUid'] ? selectedThread['snederObject']['name'] : selectedThread['groupObject']['groupName']) : ''}}</span>
       <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
