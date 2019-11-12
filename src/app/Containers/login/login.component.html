@@ -2,25 +2,32 @@
   <h1>P-Messenger</h1>
   <mat-form-field appearance="outline" class="phone-number">
     <mat-label>Enter Phone Number</mat-label>
-    <input matInput placeholder="Placeholder" formControlName="phoneControl">
+    <input #loginInput matInput placeholder="Placeholder" formControlName="phoneControl">
     <mat-icon matSuffix>phone</mat-icon>
     <mat-error *ngIf="phoneGroup.controls.phoneControl.hasError('required')">
-      Phone Number is <strong>required</strong>
+      Phone Number is required to Log In
     </mat-error>
     <mat-hint>example: +921234567890</mat-hint>
   </mat-form-field>
   <div class="form-group">
-    <button class="login-button" [disabled]="!phoneGroup.valid" mat-raised-button color="primary" id="log-in-button">LOG
+    <button (click)="check()" type="submit" class="login-button" [disabled]="!phoneGroup.valid || spin" mat-raised-button color="primary"
+      id="log-in-button">LOG
       IN</button>
   </div>
+  <mat-error class="login-error"> {{loginError}} </mat-error>
+  <mat-spinner [style.display]="spin ? 'block' : 'none'"></mat-spinner>
 </form>
-<form class="code" [formGroup]="codeForm" (ngSubmit)="verifyCode(codeForm)">
+<form class="code" *ngIf="windowRef && windowRef.hasOwnProperty('confirmationResult')" [formGroup]="codeForm"
+  (ngSubmit)="verifyCode(codeForm)">
   <mat-form-field appearance="outline">
     <mat-label>Code</mat-label>
     <input matInput placeholder="Placeholder" formControlName="code">
+    <mat-error *ngIf="codeForm.controls.code.hasError('required')">
+      Please enter received code here
+    </mat-error>
   </mat-form-field>
   <div>
-    <button class="code-button" [disabled]="!windowRef.hasOwnProperty('confirmationResult')" type="submit"
-      mat-raised-button color="primary">VERIFY CODE</button>
+    <button class="code-button" [disabled]="codeForm.controls.code.hasError('required')" type="submit" mat-raised-button
+      color="primary">VERIFY CODE</button>
   </div>
 </form>

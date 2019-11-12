@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ThreadsComponent } from './Containers/threads/threads.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatTooltipModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatTooltipModule, MatProgressSpinnerModule } from '@angular/material';
 import { ThreadComponent } from './Components/thread/thread.component';
 import { LoginComponent } from './Containers/login/login.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -55,7 +55,8 @@ import { ConvertDate } from './Services/util.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

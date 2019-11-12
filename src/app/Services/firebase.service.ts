@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class FirebaseService {
   constructor(private fireAuth: AngularFireAuth, private store: AngularFirestore) { }
 
   loginPhone(phone: string, appVerifier: any) {
-    return this.fireAuth.auth.signInWithPhoneNumber(phone, appVerifier)
+    return from(this.fireAuth.auth.signInWithPhoneNumber(phone, appVerifier))
   }
 
   getUsers() {
