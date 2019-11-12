@@ -28,9 +28,10 @@ export class ThreadsComponent implements OnInit {
       this.subscriptions.push(this.fireBaseService.getUserDetail(this.currentUser).subscribe(res => {
         this.profileImg = res.payload.data()['image']
         localStorage.setItem('userDetail', JSON.stringify(res.payload.data()))
-      }))
-      this.subscriptions.push(this.fireBaseService.getUserThreads(this.currentUser).subscribe(res => {
-        this.threadList = res.map(item => item.payload.doc.data())
+        this.subscriptions.push(this.fireBaseService.getUserThreads(this.currentUser).subscribe(res => {
+          this.threadList = res.map(item => item.payload.doc.data())
+          this.subscriptions && this.subscriptions.forEach(subscription => subscription.unsubscribe())
+        }))
       }))
     } else {
       this.router.navigate(['/']);
@@ -42,7 +43,7 @@ export class ThreadsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe())
+    this.subscriptions && this.subscriptions.forEach(subscription => subscription.unsubscribe())
   }
 
   logOut() {

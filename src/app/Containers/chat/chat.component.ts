@@ -15,6 +15,7 @@ export class ChatComponent {
   constructor(private fireBaseService: FirebaseService) { }
 
   ngOnChanges(changes) {
+    this.chatList = []
     this.subscription && this.subscription.unsubscribe()
     const { selectedThread: { currentValue } } = changes
     const id = currentValue.combineUid ? currentValue.combineUid : currentValue.groupID
