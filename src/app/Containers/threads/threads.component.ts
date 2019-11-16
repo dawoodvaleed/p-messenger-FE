@@ -29,8 +29,10 @@ export class ThreadsComponent implements OnInit {
         this.profileImg = res.payload.data()['image']
         localStorage.setItem('userDetail', JSON.stringify(res.payload.data()))
         this.subscriptions.push(this.fireBaseService.getUserThreads(this.currentUser).subscribe(res => {
-          this.threadList = res.map(item => item.payload.doc.data())
-          this.subscriptions && this.subscriptions.forEach(subscription => subscription.unsubscribe())
+          this.threadList = res.map(item => {
+            return { docId: item.payload.doc.id, ...item.payload.doc.data() }
+          })
+          // this.subscriptions && this.subscriptions.forEach(subscription => subscription.unsubscribe())
         }))
       }))
     } else {
@@ -39,6 +41,7 @@ export class ThreadsComponent implements OnInit {
   }
 
   openThread(thread) {
+    this.fireBaseService.changeLastSeen(thread.docId)
     this.selectedThread = thread
   }
 

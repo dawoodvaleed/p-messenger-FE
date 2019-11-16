@@ -1,7 +1,7 @@
 <div [style.backgroundColor]="isSelected ? '#e9ebeb' : ''" class="main">
   <img src={{threadImg}} />
   <div class="inner">
-    <span class="name" [ngStyle]="{'font-weight': (!lastSeen && senderUid !== currentUser) ? 'bold' : '0'}"> {{threadName}} </span>
-    <span class="msg" [ngStyle]="{'font-weight': (!lastSeen && senderUid !== currentUser) ? 'bold' : '0'}"> {{lastMessage}} </span>
+    <span class="name" [ngStyle]="{'font-weight': !lastSeen ? 'bold' : '0'}"> {{threadName}} </span>
+    <span class="msg" [ngStyle]="{'font-weight': !lastSeen ? 'bold' : '0'}"> {{lastMessage}} </span>
   </div>
 </div>

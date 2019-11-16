@@ -43,6 +43,15 @@ export class FirebaseService {
       .snapshotChanges()
   }
 
+  changeLastSeen(id) {
+    const currentUserId = localStorage.getItem('user')
+    this.store.collection('Allthreads')
+      .doc(currentUserId)
+      .collection('threads')
+      .doc(id)
+      .update({ isLastMsgSeen: true })
+  }
+
   pushNotification(ids, body, title?) {
     const currentUserId = localStorage.getItem('user')
     let headers = new HttpHeaders();
