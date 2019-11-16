@@ -7,7 +7,7 @@
     <mat-error *ngIf="phoneGroup.controls.phoneControl.hasError('required')">
       Phone Number is required to Log In
     </mat-error>
-    <mat-hint>example: +921234567890</mat-hint>
+    <mat-hint>example: 12647366472</mat-hint>
   </mat-form-field>
   <div class="form-group">
     <button (click)="check()" type="submit" class="login-button" [disabled]="!phoneGroup.valid || spin" mat-raised-button color="primary"

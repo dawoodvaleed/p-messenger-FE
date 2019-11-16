@@ -19,6 +19,7 @@ import { MessageComponent } from './Components/message/message.component';
 import { NewComponent, UploadFileDialog } from './Containers/new/new.component';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ConvertDate } from './Services/util.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ConvertDate } from './Services/util.service';
     LayoutModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
 
     // FireStore Modules
     AngularFireModule.initializeApp(environment.firebaseConfig),

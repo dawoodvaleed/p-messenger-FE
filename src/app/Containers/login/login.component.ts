@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   logIn() {
     this.spin = true;
     let appVerifier = this.windowRef.recaptchaVerifier;
-    this.fireAuthService.loginPhone(this.phoneGroup.controls.phoneControl.value, appVerifier).pipe(
+    this.fireAuthService.loginPhone(`+${this.phoneGroup.controls.phoneControl.value}`, appVerifier).pipe(
       finalize(() => {
         appVerifier = null;
         this.spin = false
