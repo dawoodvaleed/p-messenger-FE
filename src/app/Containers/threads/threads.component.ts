@@ -11,14 +11,14 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./threads.component.scss']
 })
 export class ThreadsComponent implements OnInit {
-
   currentUser = localStorage.getItem('user')
   threadList = []
   selectedThread = {}
   profileImg = ''
   subscriptions = []
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
     .pipe(map(result => result.matches))
 
   constructor(private breakpointObserver: BreakpointObserver, private fireBaseService: FirebaseService, private router: Router) { }

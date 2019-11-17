@@ -66,7 +66,7 @@ export class FirebaseService {
             const obj = {
               registration_ids: [res.payload.data()['fcmDeviceToken']],
               notification: {
-                body,
+                body: body.messageType == 1 ? `🖼️ Image` : body.message,
                 title: title ? title : res.payload.data()['name'],
                 sound: "default"
               }
@@ -89,6 +89,7 @@ export class FirebaseService {
           .doc(uid)
           .collection('threads', ref => ref.where('combineUid', '==', thread.combineUid))
           .snapshotChanges()
+          .pipe(finalize(() => subscriptions.forEach(subscription => subscription.unsubscribe())))
           .subscribe(res => {
             res.map(msg => msg.payload.doc.ref.update({
               dateTime: obj.dateTime,
@@ -96,17 +97,16 @@ export class FirebaseService {
               isLastMsgSeen: uid === currentUserId ? true : false,
               lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
             }))
-            subscriptions.forEach(subscription => subscription.unsubscribe())
           }))
       })
-      this.pushNotification(uids, obj.message)
+      this.pushNotification(uids, obj)
     } else {
       let name = ''
       subscriptions.push(this.store
         .collection('AllGroups')
         .doc(thread.groupID)
         .snapshotChanges()
-        .pipe(finalize(() => this.pushNotification(uids, obj.message, name)))
+        .pipe(finalize(() => this.pushNotification(uids, obj, name)))
         .subscribe(res => res.payload.data()['groupMembers'].map(user => {
           name = res.payload.data()['groupName']
           uids.push(user.uid)
@@ -115,13 +115,13 @@ export class FirebaseService {
             .doc(user.uid)
             .collection('threads', ref => ref.where('groupID', '==', thread.groupID))
             .snapshotChanges()
+            .pipe(finalize(() => subscriptions.forEach(subscription => subscription.unsubscribe())))
             .subscribe(res => {
               res.map(msg => msg.payload.doc.ref.update({
                 dateTime: obj.dateTime,
                 isLastMsgSeen: user.uid === currentUserId ? true : false,
                 lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
               }))
-              subscriptions.forEach(subscription => subscription.unsubscribe())
             }))
         })))
     }

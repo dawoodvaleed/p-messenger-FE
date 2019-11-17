@@ -68,7 +68,7 @@ export class UploadFileDialog {
   }
 
   upload() {
-    let uploadTask = firebase.storage().ref(`images`).child(`${this.util.generateRandom(25)}`).put(this.fileToUpload)
+    let uploadTask = firebase.storage().ref(`images`).child(`${this.util.generateRandom(25)}${this.fileToUpload.name.slice(this.fileToUpload.name.lastIndexOf('.'), this.fileToUpload.name.length)}`).put(this.fileToUpload)
     uploadTask.on('state_changed', (snapshot) => {
       var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('Upload is ' + progress + '% done')
