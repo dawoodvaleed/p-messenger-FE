@@ -32,7 +32,6 @@ export class ThreadsComponent implements OnInit {
           this.threadList = res.map(item => {
             return { docId: item.payload.doc.id, ...item.payload.doc.data() }
           })
-          // this.subscriptions && this.subscriptions.forEach(subscription => subscription.unsubscribe())
         }))
       }))
     } else {

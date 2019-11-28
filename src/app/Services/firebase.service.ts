@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { from } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { finalize } from 'rxjs/operators';
+import { finalize, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -53,12 +53,13 @@ export class FirebaseService {
   }
 
   pushNotification(ids, body, title?) {
-    const currentUserId = localStorage.getItem('user')
+    const currentUserId = localStorage.getItem('user');
+    let subscriptions = []
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `key=AAAAJ8mHfOM:APA91bERrvetSLXTGxfsotgKzbnLvvyuC8O8i38iR2k5f427oTCiI5jLK2aEZuW4sfqjigVXpAX1Uz2T0jvd1aHwUnQz0PSqLsdOy6UZuYI9IoQI1h8GMVLVEvr1jnv8oPR6cEOnUXn2`);
     ids.map(id => {
       if (id !== currentUserId)
-        this.store
+        subscriptions.push(this.store
           .collection('users')
           .doc(id)
           .snapshotChanges()
@@ -71,59 +72,61 @@ export class FirebaseService {
                 sound: "default"
               }
             }
-            console.log(obj)
-            this.http.post('https://fcm.googleapis.com/fcm/send', obj, { headers: headers }).subscribe()
-          })
+            subscriptions.push(this.http.post('https://fcm.googleapis.com/fcm/send', obj, { headers: headers })
+              .pipe(finalize(() => subscriptions.forEach(subscription => subscription.unsubscribe())))
+              .subscribe())
+          }))
     })
   }
 
   sendMessage(id, obj, thread) {
     const currentUserId = localStorage.getItem('user')
-    let subscriptions = []
     let uids = []
     if (thread.combineUid) {
       thread.combineUid.split("|$|").map(uid => {
         uids.push(uid)
-        subscriptions.push(this.store
+        this.store
           .collection('Allthreads')
           .doc(uid)
           .collection('threads', ref => ref.where('combineUid', '==', thread.combineUid))
-          .snapshotChanges()
-          .pipe(finalize(() => subscriptions.forEach(subscription => subscription.unsubscribe())))
+          .get()
           .subscribe(res => {
-            res.map(msg => msg.payload.doc.ref.update({
-              dateTime: obj.dateTime,
-              senderUid: obj.sendUid,
-              isLastMsgSeen: uid === currentUserId ? true : false,
-              lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
-            }))
-          }))
+            res.docs.map(ele => {
+              ele.ref.update({
+                dateTime: obj.dateTime,
+                senderUid: obj.sendUid,
+                isLastMsgSeen: uid === currentUserId ? true : false,
+                lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
+              })
+            })
+          })
       })
       this.pushNotification(uids, obj)
     } else {
       let name = ''
-      subscriptions.push(this.store
+      this.store
         .collection('AllGroups')
         .doc(thread.groupID)
-        .snapshotChanges()
+        .get()
         .pipe(finalize(() => this.pushNotification(uids, obj, name)))
-        .subscribe(res => res.payload.data()['groupMembers'].map(user => {
-          name = res.payload.data()['groupName']
+        .subscribe(res => res.data()['groupMembers'].map(user => {
+          name = res.data()['groupName']
           uids.push(user.uid)
-          subscriptions.push(this.store
+          this.store
             .collection('Allthreads')
             .doc(user.uid)
             .collection('threads', ref => ref.where('groupID', '==', thread.groupID))
-            .snapshotChanges()
-            .pipe(finalize(() => subscriptions.forEach(subscription => subscription.unsubscribe())))
+            .get()
             .subscribe(res => {
-              res.map(msg => msg.payload.doc.ref.update({
-                dateTime: obj.dateTime,
-                isLastMsgSeen: user.uid === currentUserId ? true : false,
-                lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
-              }))
-            }))
-        })))
+              res.docs.map(ele => {
+                ele.ref.update({
+                  dateTime: obj.dateTime,
+                  isLastMsgSeen: user.uid === currentUserId ? true : false,
+                  lastMessage: obj.messageType == 1 ? `🖼️ Image` : obj.message,
+                })
+              })
+            })
+        }))
     }
     return this.store.collection('allMessages').doc(id).collection('messages').add(obj)
   }
