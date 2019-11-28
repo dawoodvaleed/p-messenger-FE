@@ -54,6 +54,7 @@ export class FirebaseService {
 
   pushNotification(ids, body, title?) {
     const currentUserId = localStorage.getItem('user');
+    const { name } = JSON.parse(localStorage.getItem('userDetail'));
     let subscriptions = []
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `key=AAAAJ8mHfOM:APA91bERrvetSLXTGxfsotgKzbnLvvyuC8O8i38iR2k5f427oTCiI5jLK2aEZuW4sfqjigVXpAX1Uz2T0jvd1aHwUnQz0PSqLsdOy6UZuYI9IoQI1h8GMVLVEvr1jnv8oPR6cEOnUXn2`);
@@ -67,8 +68,8 @@ export class FirebaseService {
             const obj = {
               registration_ids: [res.payload.data()['fcmDeviceToken']],
               notification: {
-                body: body.messageType == 1 ? `🖼️ Image` : body.message,
-                title: title ? title : res.payload.data()['name'],
+                body: `${title ? `${name}: ` : ``}${body.messageType == 1 ? `🖼️ Image` : body.message}`,
+                title: title ? title : name,
                 sound: "default"
               }
             }
